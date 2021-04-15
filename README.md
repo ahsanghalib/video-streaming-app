@@ -1,2 +1,2 @@
-# backend-video-streaming
-backend-video-streaming
+# video-streaming-app
+video-streaming-app
