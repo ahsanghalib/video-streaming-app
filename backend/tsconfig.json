@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "sourceMap": false,
+    "target": "es5",
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "alwaysStrict": false,
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "lib": ["es2018", "es2017", "es2015", "dom", "es6"],
+    "module": "commonjs"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
