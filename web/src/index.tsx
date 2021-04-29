@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import App from "./App";
 import "./index.css";
+import "video.js/dist/video-js.css";
 import { queryClient } from "./utils/queryClient";
 
 const app = (

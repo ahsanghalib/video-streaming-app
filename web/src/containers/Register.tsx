@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { CusButton, CusTextField } from "../components/StyledComponents";
 import { useForm } from "../hooks/useForm";
 import { useTokenStore, useUserInfoStore } from "../stores";
@@ -17,7 +17,8 @@ interface Props {}
 const Register: React.FC<Props> = () => {
   const { setTokens } = useTokenStore();
   const { setUser } = useUserInfoStore();
-  
+  const history = useHistory();
+
   const mutation = useMutation(
     (input: RegisterFormInput) => axiosClient().post("/register", input),
     {
@@ -27,6 +28,7 @@ const Register: React.FC<Props> = () => {
           expiresIn: res.data.expiresIn,
         });
         setUser(res.data.user);
+        history.replace("/");
       },
     }
   );

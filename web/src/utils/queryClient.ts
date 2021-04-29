@@ -5,8 +5,10 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
       onError: (e: any) => {
-        if (e.response.data.message) {
-          ShowToast(e.response.data.message, "error");
+        if (e.response) {
+          if (e.response.data.message) {
+            ShowToast(e.response.data.message, "error");
+          }
         }
       },
     },
@@ -14,8 +16,10 @@ export const queryClient = new QueryClient({
       retry: false,
       staleTime: 60 * 1000 * 5,
       onError: (e: any) => {
-        if (e.response.data.message) {
-          ShowToast(e.response.data.message, "error");
+        if (e.response) {
+          if (e.response.data.message) {
+            ShowToast(e.response.data.message, "error");
+          }
         }
       },
     },

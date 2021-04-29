@@ -6,6 +6,7 @@ import http from "http";
 import { headers } from "./middlewares";
 import routes from "./routes";
 import morgan from "morgan";
+import path from "path";
 
 const expressApp = (httpServer: http.Server) => {
   logger.info(`EXPRESS_APP | Express application starting...`);
@@ -27,6 +28,11 @@ const expressApp = (httpServer: http.Server) => {
 
   httpServer.on("request", app);
   app.use("/api", routes, cors());
+  app.use(express.static(path.join(__dirname, "../client")));
+
+  app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/index.html"));
+  });
 
   app.use((req: Request, res: Response) => {
     res.status(404).json({

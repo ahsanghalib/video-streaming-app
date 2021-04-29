@@ -1,12 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.ts",
   "author": "Muhammad Ahsan Izhar <ahsanghalib@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production  node build/server.js",
+    "start": "cross-env NODE_ENV=production  node dist/server.js",
     "dev:start": "cross-env NODE_ENV=development ts-node-dev src/server.ts",
     "clean": "rimraf ./build ./dist",
     "webpack": "webpack --config webpack.production.js",
@@ -17,6 +17,9 @@
     "db:mig:down": "ts-node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
+    "@types/amqplib": "^0.5.17",
+    "@types/fs-extra": "^9.0.11",
+    "amqplib": "^0.7.1",
     "app-root-path": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.4.0",
@@ -27,8 +30,9 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-useragent": "^1.0.15",
+    "fs-extra": "^9.1.0",
     "jsonwebtoken": "^8.5.1",
-    "mediasoup": "^3.7.2",
+    "mediasoup": "^3.7.0",
     "morgan": "^1.10.0",
     "pg": "^8.6.0",
     "qs": "^6.10.1",

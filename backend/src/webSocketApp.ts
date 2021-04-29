@@ -1,7 +1,7 @@
 import http from "http";
 import { v4 as uuid } from "uuid";
 import WebSocket from "ws";
-import { handleSocketResponse } from "./controllers/socket";
+import { handleSocketResponse, rooms } from "./controllers/socket";
 import logger from "./logging/Logger";
 import { Oper, WsParam } from "./types";
 
@@ -38,6 +38,7 @@ const webSocketApp = (httpServer: http.Server) => {
       );
 
       logger.info(`WEBSOCKET | TOTAL USERS | ${connectedUsers.size}`);
+      logger.info(`WEBSOCKET | ROOMS | ${rooms.size}`);
 
       socket.addEventListener("pong", () => {
         heartbeat(socket);
@@ -57,9 +58,14 @@ const webSocketApp = (httpServer: http.Server) => {
 
         try {
           const json: WsParam = JSON.parse(event.data);
-          logger.info(`WEBSOCKET | MESSAGE | ${JSON.stringify(json)}`);
 
-          const res: WsParam = await handleSocketResponse(json);
+          console.log("socket::message [jsonMessage:%o]", json);
+
+          logger.info(`WEBSOCKET | MESSAGE | ${JSON.stringify(json)}`);
+          logger.info(`WEBSOCKET | TOTAL USERS | ${connectedUsers.size}`);
+          logger.info(`WEBSOCKET | ROOMS | ${rooms.size}`);
+
+          const res: WsParam | void = await handleSocketResponse(json, wss);
 
           if (res) {
             logger.info(`WEBSOCKET | RESPONSE | ${JSON.stringify(res)}`);
@@ -75,18 +81,20 @@ const webSocketApp = (httpServer: http.Server) => {
 
       socket.addEventListener("error", (event) => {
         logger.info(
-          `WEBSOCKET | SOCKET ERROR |USER_SESSION_ID | ${
+          `WEBSOCKET | SOCKET ERROR | USER_SESSION_ID | ${
             socket.sessionId
           } | ${JSON.stringify(event, null, 2)}`,
         );
       });
 
-      socket.addEventListener("close", () => {
+      socket.once("close", () => {
         logger.info(
-          `WEBSOCKET | SOCKET CLOSED |USER_SESSION_ID | ${socket.sessionId} `,
+          `WEBSOCKET | SOCKET CLOSED | USER_SESSION_ID | ${socket.sessionId} `,
         );
         connectedUsers.delete(socket.sessionId);
+        rooms.delete(socket.sessionId);
         logger.info(`WEBSOCKET | TOTAL USERS | ${connectedUsers.size}`);
+        logger.info(`WEBSOCKET | ROOMS | ${rooms.size}`);
       });
     },
   );

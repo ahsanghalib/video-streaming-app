@@ -5,8 +5,10 @@ import morgan from "morgan";
 import connectToDB from "./db";
 import expressApp from "./expressApp";
 import logger from "./logging/Logger";
+import { initializeWorkers } from "./webrtc/mediaSoupStart";
 import { RequestWithUserID } from "./types";
 import webSocketApp from "./webSocketApp";
+import { startRabbitMQ } from "./startRabbirMQ";
 
 morgan.token("user_id", (req: RequestWithUserID) => {
   return req.userId + " | " + req.userType;
@@ -40,6 +42,9 @@ const port = process.env.PORT || 4000;
     logger.info("Starting server ...");
 
     await connectToDB();
+    await initializeWorkers();
+    await startRabbitMQ();
+
     expressApp(httpServer);
     webSocketApp(httpServer);
 

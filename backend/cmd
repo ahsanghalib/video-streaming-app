@@ -1,0 +1,15 @@
+sudo apt update
+sudo apt install -y git build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev git 
+sudo add-apt-repository ppa:mc3man/trusty-media
+sudo apt update
+sudo apt install -y --no-install-recommends ffmpeg
+
+git clone https://github.com/arut/nginx-rtmp-module.git
+git clone https://github.com/nginx/nginx.git
+cd nginx
+./auto/configure --add-module=../nginx-rtmp-module
+make
+sudo make install
+
+
+ffmpeg -re -i video.mp4 -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://localhost/encoder/video-1

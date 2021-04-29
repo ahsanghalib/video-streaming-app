@@ -1,26 +1,42 @@
-import { Button } from "@material-ui/core";
-import React from "react";
-import { useTokenStore, useUserInfoStore } from "../stores";
-import { closeWebSocket } from "../utils/createWebSocket";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useStreamingUsers } from "../stores";
+import { wsend } from "../utils/createWebSocket";
+import { Oper } from "../utils/types";
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
-  const user = useUserInfoStore((s) => s.user);
+  const streamUsers = useStreamingUsers((s) => s.streamUsers);
+
+  useEffect(() => {
+    wsend({
+      op: Oper.get_streaming_sessions,
+      d: {},
+    });
+  }, []);
 
   return (
     <div>
-      Home...
-      {user.first_name}
-      {user.last_name}
-      <Button
-        onClick={() => {
-          useTokenStore.getState().clearTokens();
-          closeWebSocket();
-        }}
-      >
-        Logout
-      </Button>
+      {streamUsers.length > 0 ? (
+        <>
+          <b>Streaming Users [Total users: {streamUsers.length}]</b>
+          <br />
+          <br />
+          {streamUsers.map((s, i) => (
+            <div key={s.fileName} className="flex gap-4">
+              <div>
+                {i + 1}: <b>{s.userName}</b> is streaming.{" "}
+                <Link to={`/live/${s.fileName}`} className="underline">
+                  To Watch Click Here
+                </Link>
+              </div>
+            </div>
+          ))}
+        </>
+      ) : (
+        <b>No User is streaming...</b>
+      )}
     </div>
   );
 };

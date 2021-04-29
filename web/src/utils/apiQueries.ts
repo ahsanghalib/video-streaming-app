@@ -1,4 +1,7 @@
-const baseUrl = "localhost:4000";
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? `${window.location.host}`
+    : `${window.location.hostname}:4000`;
 
 export const apiBaseUrl = `${
   window.location.protocol === "https:" ? "https" : "http"

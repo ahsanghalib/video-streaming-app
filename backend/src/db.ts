@@ -11,12 +11,12 @@ const connectToDB = async () => {
     synchronize: false,
     logging: false,
     dropSchema: false,
-    ssl: process.env.NODE_ENV === "development" ? false : true,
-    extra: {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    },
+    // ssl: process.env.NODE_ENV === "development" ? false : true,
+    // extra: {
+    //   ssl: {
+    //     rejectUnauthorized: false,
+    //   },
+    // },
     entities: [
       process.env.NODE_ENV === "development"
         ? "src/entity/**/*.ts"
@@ -30,7 +30,7 @@ const connectToDB = async () => {
     subscribers: [
       process.env.NODE_ENV === "development"
         ? "src/subscriber/**/*.ts"
-        : "src/subscriber/**/*.js",
+        : "dist/subscriber/**/*.js",
     ],
     cli: {
       entitiesDir:

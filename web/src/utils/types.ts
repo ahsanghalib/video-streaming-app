@@ -8,6 +8,16 @@ export type WsParam = {
 
 export enum Oper {
   error = "error",
+  session_id = "session_id",
+  router_rtp_capabilities = "router_rtp_capabilities",
+  create_transport = "create_transport",
+  connect_transport = "connect_transport",
+  produce = "produce",
+  close_webrtc = "close_webrtc",
+  start_stream = "start_stream",
+  stop_stream = "stop_stream",
+  streaming_sessions = "streaming_sessions",
+  get_streaming_sessions = "get_streaming_sessions",
 }
 
 export enum UserTypesEnum {
