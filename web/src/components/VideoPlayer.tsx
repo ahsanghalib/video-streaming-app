@@ -3,6 +3,7 @@ import { useWindowSize } from "react-use";
 import videojs from "video.js";
 // Styles
 import "video.js/dist/video-js.css";
+import { liveUrl } from "../utils/apiQueries";
 
 interface IVideoPlayerProps {
   options?: videojs.PlayerOptions;
@@ -49,10 +50,7 @@ const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options, fileName }) => {
   return (
     <div className="flex items-center">
       <video ref={videoNode} className="video-js vjs-default-skin">
-        <source
-          src={`http://${window.location.hostname}/live/${fileName}/index.m3u8`}
-          type="application/x-mpegURL"
-        />
+        <source src={liveUrl(fileName)} type="application/x-mpegURL" />
       </video>
     </div>
   );

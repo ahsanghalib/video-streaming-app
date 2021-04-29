@@ -5,7 +5,7 @@ import {
   useMediaSoupConnectionState,
   useMediaStore,
   useTokenStore,
-  useUserInfoStore,
+  useUserInfoStore
 } from "../stores";
 import { wsend } from "./createWebSocket";
 import { Oper } from "./types";
@@ -31,43 +31,6 @@ export const defaultConstraints = {
   // },
 };
 
-// const mediaCodecs = [
-//   {
-//     kind: "audio" as MediaKind,
-//     mimeType: "audio/opus",
-//     clockRate: 48000,
-//     channels: 2,
-//   },
-//   {
-//     kind: "video" as MediaKind,
-//     mimeType: "video/VP8",
-//     clockRate: 90000,
-//     parameters: {
-//       "x-google-start-bitrate": 1000,
-//     },
-//   },
-//   {
-//     kind: "video" as MediaKind,
-//     mimeType: "video/VP9",
-//     clockRate: 90000,
-//     parameters: {
-//       "profile-id": 2,
-//       "x-google-start-bitrate": 1000,
-//     },
-//   },
-//   {
-//     kind: "video" as MediaKind,
-//     mimeType: "video/H264",
-//     clockRate: 90000,
-//     parameters: {
-//       "packetization-mode": 1,
-//       "profile-level-id": "4d0032",
-//       "level-asymmetry-allowed": 1,
-//       "x-google-start-bitrate": 1000,
-//     },
-//   },
-// ];
-
 const hasGetUserMedia = () => {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 };
@@ -80,31 +43,6 @@ export const getUserMedia = async () => {
     throw new Error("Browser not supported");
   }
 };
-
-// const getVideoCodecs = () => {
-//   // eslint-disable-next-line no-restricted-globals
-//   let params = new URLSearchParams(location.search.slice(1));
-//   let videoCodec = params.get("videocodec");
-
-//   const codec = mediaCodecs.find((c) => {
-//     if (!videoCodec) return undefined;
-//     return ~c.mimeType.toLowerCase().indexOf(videoCodec.toLowerCase());
-//   });
-
-//   return codec !== undefined
-//     ? codec
-//     : {
-//         kind: "video" as MediaKind,
-//         mimeType: "video/H264",
-//         clockRate: 90000,
-//         parameters: {
-//           "packetization-mode": 1,
-//           "profile-level-id": "4d0032",
-//           "level-asymmetry-allowed": 1,
-//           "x-google-start-bitrate": 1000,
-//         },
-//       };
-// };
 
 export const handleRouterRtpCapabilitiesRequest = async (msg: any) => {
   const { routerRtpCapabilities } = msg;
@@ -137,14 +75,14 @@ export const handleRouterRtpCapabilitiesRequest = async (msg: any) => {
 export const handleCreateTransportRequest = async (msg: any) => {
   const { id, dtlsParameters, iceCandidates, iceParameters } = msg;
   try {
-    const sendTransport = await useMediaStore
-      .getState()
-      .device!.createSendTransport({
-        id,
-        dtlsParameters,
-        iceCandidates,
-        iceParameters,
-      });
+    const device = useMediaStore.getState().device;
+
+    const sendTransport: any = await device?.createSendTransport({
+      id,
+      dtlsParameters,
+      iceCandidates,
+      iceParameters,
+    });
 
     useMediaStore.getState().set({
       sendTransport,
@@ -190,7 +128,7 @@ export const handleProduceRequest = async (msg: any) => {
 const handleSendTransportListeners = () => {
   const sendTransport = useMediaStore.getState().sendTransport;
 
-  sendTransport!.on(
+  sendTransport?.on(
     "connect",
     async ({ dtlsParameters }, callback, errback) => {
       console.log("handleTransportConnectEvent()");
@@ -207,7 +145,7 @@ const handleSendTransportListeners = () => {
           op: Oper.connect_transport,
           d: {
             sessionId: useTokenStore.getState().sessionId,
-            transportId: useMediaStore.getState().sendTransport!.id,
+            transportId: useMediaStore.getState().sendTransport?.id,
             dtlsParameters,
           },
         });
@@ -218,7 +156,7 @@ const handleSendTransportListeners = () => {
     }
   );
 
-  sendTransport!.on(
+  sendTransport?.on(
     "produce",
     async ({ kind, rtpParameters }, callback, errback) => {
       console.log("handleTransportProduceEvent()");
@@ -235,7 +173,7 @@ const handleSendTransportListeners = () => {
           op: Oper.produce,
           d: {
             sessionId: useTokenStore.getState().sessionId,
-            transportId: useMediaStore.getState().sendTransport!.id,
+            transportId: useMediaStore.getState().sendTransport?.id,
             kind,
             rtpParameters,
           },
@@ -247,7 +185,7 @@ const handleSendTransportListeners = () => {
     }
   );
 
-  sendTransport!.on(
+  sendTransport?.on(
     "connectionstatechange",
     (connectionState: ConnectionState) => {
       console.log(
@@ -301,16 +239,16 @@ const getMediaStream = async () => {
     const producers = useMediaStore.getState().producers;
 
     if (videoTrack) {
-      const videoProducer = await sendTransport!.produce({
+      const videoProducer: any = await sendTransport?.produce({
         track: videoTrack,
-        codec: device!.rtpCapabilities.codecs!.find(
+        codec: device?.rtpCapabilities.codecs?.find(
           (codec) => codec.mimeType.toLowerCase() === "video/vp8"
         ),
       });
       producers.push(videoProducer);
     }
     if (audioTrack) {
-      const audioProducer = await sendTransport!.produce({
+      const audioProducer: any = await sendTransport?.produce({
         track: audioTrack,
       });
       producers.push(audioProducer);

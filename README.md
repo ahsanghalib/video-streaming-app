@@ -16,7 +16,7 @@ check on localhost:4000
 2. linux packages
 ```
 sudo apt update
-sudo apt install -y git build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev git
+sudo apt install -y git build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev git libgd-dev libxslt-dev libgeoip-dev
 ````
 
 3. nginx with rtmp
@@ -24,7 +24,30 @@ sudo apt install -y git build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-
 git clone <https://github.com/arut/nginx-rtmp-module.git>
 git clone <https://github.com/nginx/nginx.git>
 cd nginx
-./auto/configure --add-module=../nginx-rtmp-module
+sudo ./auto/configure \
+--add-module=../nginx-rtmp-module \
+--prefix=/opt/nginx/$NGINX_NAME_VERSION \
+--pid-path=/var/run/nginx.pid \
+--conf-path=/etc/nginx/$NGINX_NAME_VERSION/conf/nginx.conf \
+--error-log-path=/var/log/nginx/error.log \
+--http-log-path=/var/log/nginx/access.log \
+--lock-path=/var/lock/nginx.lock \
+--http-client-body-temp-path=/var/tmp/nginx/body \
+--http-fastcgi-temp-path=/var/tmp/nginx/fastcgi \
+--http-proxy-temp-path=/var/tmp/nginx/proxy \
+--http-scgi-temp-path=/var/tmp/nginx/scgi \
+--http-uwsgi-temp-path=/var/tmp/nginx/uwsgi \
+--with-http_v2_module \
+--with-http_flv_module \
+--with-http_image_filter_module \
+--with-http_addition_module \
+--with-http_gzip_static_module \
+--with-http_ssl_module \
+--with-http_sub_module \
+--with-http_xslt_module \
+--with-mail \
+--with-mail_ssl_module 
+
 make
 sudo make install
 cp nginx.conf /usr/local/nginx/conf

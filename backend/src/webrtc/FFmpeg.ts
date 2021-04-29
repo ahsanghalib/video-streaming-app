@@ -28,19 +28,15 @@ class FFmpeg {
 
     if (this._process.stderr) {
       this._process.stderr.setEncoding("utf-8");
-      this._process.stderr.on(
-        "data",
-        (data: any) => {},
-        // console.log("ffmpeg::process::data [data:%o]", data),
+      this._process.stderr.on("data", (data: any) =>
+        console.log("ffmpeg::process::data [data:%o]", data),
       );
     }
 
     if (this._process.stdout) {
       this._process.stdout.setEncoding("utf-8");
-      this._process.stdout.on(
-        "data",
-        (data: any) => {},
-        // console.log("ffmpeg::process::data [data:%o]", data),
+      this._process.stdout.on("data", (data: any) =>
+        console.log("ffmpeg::process::data [data:%o]", data),
       );
     }
 
