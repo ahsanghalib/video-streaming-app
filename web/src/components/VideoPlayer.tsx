@@ -50,7 +50,7 @@ const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options, fileName }) => {
     <div className="flex items-center">
       <video ref={videoNode} className="video-js vjs-default-skin">
         <source
-          src={`http://localhost/live/${fileName}/index.m3u8`}
+          src={`http://${window.location.hostname}/live/${fileName}/index.m3u8`}
           type="application/x-mpegURL"
         />
       </video>

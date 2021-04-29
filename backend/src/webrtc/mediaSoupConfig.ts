@@ -54,7 +54,7 @@ export const config = {
     listenIps: [
       {
         ip: process.env.WEBRTC_LISTEN_IP || "127.0.0.1",
-        announcedIp: process.env.A_IP || undefined,
+        announcedIp: process.env.A_IP || null,
       },
     ] as TransportListenIp[],
     enableUdp: true,
@@ -65,7 +65,7 @@ export const config = {
   plainRtpTransport: {
     listenIp: {
       ip: process.env.WEBRTC_LISTEN_IP || "127.0.0.1",
-      announcedIp: process.env.A_IP || undefined,
+      announcedIp: process.env.A_IP || null,
     },
     rtcpMux: true,
     comedia: false,

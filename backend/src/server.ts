@@ -35,7 +35,7 @@ morgan.token("agent_info", (req: RequestWithUserID) => {
 logger.info(`NODE_ENV | ${process.env.NODE_ENV}`);
 
 const httpServer = http.createServer();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4242;
 
 (async () => {
   try {
