@@ -2,7 +2,7 @@
 
 after cloning it. 
 
-make a files folder in this directory root. 
+make a 'files' folder in this directory root. 
 
 1. docker-compose up -d
 2. cd rabbitt -> npm run build -> npm run start
