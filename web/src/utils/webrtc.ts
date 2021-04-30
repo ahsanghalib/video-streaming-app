@@ -5,7 +5,7 @@ import {
   useMediaSoupConnectionState,
   useMediaStore,
   useTokenStore,
-  useUserInfoStore
+  useUserInfoStore,
 } from "../stores";
 import { wsend } from "./createWebSocket";
 import { Oper } from "./types";
@@ -61,6 +61,7 @@ export const handleRouterRtpCapabilitiesRequest = async (msg: any) => {
       d: {
         sessionId: useTokenStore.getState().sessionId,
         userId: useUserInfoStore.getState().user.id,
+        sctpCapabilities: device.sctpCapabilities,
       },
     });
   } catch (error) {
@@ -73,7 +74,13 @@ export const handleRouterRtpCapabilitiesRequest = async (msg: any) => {
 };
 
 export const handleCreateTransportRequest = async (msg: any) => {
-  const { id, dtlsParameters, iceCandidates, iceParameters } = msg;
+  const {
+    id,
+    dtlsParameters,
+    iceCandidates,
+    iceParameters,
+    sctpParameters,
+  } = msg;
   try {
     const device = useMediaStore.getState().device;
 
@@ -82,6 +89,7 @@ export const handleCreateTransportRequest = async (msg: any) => {
       dtlsParameters,
       iceCandidates,
       iceParameters,
+      sctpParameters,
     });
 
     useMediaStore.getState().set({

@@ -60,6 +60,7 @@ export const config = {
     enableUdp: true,
     enableTcp: true,
     preferUdp: true,
+    enableSctp: true,
     maxIncomingBitrate: 1500000,
   },
   plainRtpTransport: {

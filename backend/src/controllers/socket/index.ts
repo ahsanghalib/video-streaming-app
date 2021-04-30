@@ -93,6 +93,7 @@ const createTransportHandle = async (msg: any) => {
       iceParameters: transport.iceParameters,
       iceCandidates: transport.iceCandidates,
       dtlsParameters: transport.dtlsParameters,
+      sctpParameters: transport.sctpParameters,
     },
   };
 };
