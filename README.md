@@ -4,8 +4,8 @@ after cloning it.
 **to run first time:**
 1. bash build.sh
 
-**to run / rebuild**
-2. bash rebuild.sh
+**to run / rebuild:**
+1. bash rebuild.sh
 
 check on {hostname}:4000
 
