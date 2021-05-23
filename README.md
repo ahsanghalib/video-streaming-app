@@ -19,6 +19,8 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 sudo apt update
 sudo apt install docker-ce
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
 ```
 
 2. linux packages
@@ -34,9 +36,9 @@ git clone https://github.com/nginx/nginx.git
 cd nginx
 sudo ./auto/configure \
 --add-module=../nginx-rtmp-module \
---prefix=/opt/nginx/$NGINX_NAME_VERSION \
+--prefix=/opt/nginx/ \
 --pid-path=/var/run/nginx.pid \
---conf-path=/etc/nginx/$NGINX_NAME_VERSION/conf/nginx.conf \
+--conf-path=/etc/nginx/nginx.conf \
 --error-log-path=/var/log/nginx/error.log \
 --http-log-path=/var/log/nginx/access.log \
 --lock-path=/var/lock/nginx.lock \
@@ -56,10 +58,10 @@ sudo ./auto/configure \
 --with-mail \
 --with-mail_ssl_module 
 
-make
+sudo make
 sudo make install
 
-sudo apt install certbot python3-certbot-nginx
+sudo apt install certbot 
 sudo certbot -d example.com -d www.example.com
 
 sudo ufw enable
@@ -75,4 +77,12 @@ cp nginx.conf /etc/nginx/conf/nginx.conf
 sudo add-apt-repository ppa:mc3man/trusty-media
 sudo apt update
 sudo apt install -y --no-install-recommends ffmpeg
+```
+
+5. node
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+source ~/.bashrc
+nvm install v12.19.0
+npm install pm2@latest -g
 ```
