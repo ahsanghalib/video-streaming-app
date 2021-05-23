@@ -12,6 +12,14 @@ check on localhost:4000
 
 **required:**
 1. docker
+```
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt update
+sudo apt install docker-ce
+```
 
 2. linux packages
 ```
@@ -21,8 +29,8 @@ sudo apt install -y git build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-
 
 3. nginx with rtmp
 ```
-git clone <https://github.com/arut/nginx-rtmp-module.git>
-git clone <https://github.com/nginx/nginx.git>
+git clone https://github.com/arut/nginx-rtmp-module.git
+git clone https://github.com/nginx/nginx.git
 cd nginx
 sudo ./auto/configure \
 --add-module=../nginx-rtmp-module \
@@ -50,6 +58,15 @@ sudo ./auto/configure \
 
 make
 sudo make install
+
+sudo apt install certbot python3-certbot-nginx
+sudo certbot -d example.com -d www.example.com
+
+sudo ufw enable
+sudo ufw allow 'Nginx Full'
+sudo ufw delete allow 'Nginx HTTP'
+
+
 cp nginx.conf /usr/local/nginx/conf
 ```
 
