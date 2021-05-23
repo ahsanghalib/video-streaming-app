@@ -67,7 +67,7 @@ sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
 
 
-cp nginx.conf /usr/local/nginx/conf
+cp nginx.conf /etc/nginx/conf/nginx.conf
 ```
 
 4. ffmpeg
