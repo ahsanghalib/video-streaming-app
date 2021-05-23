@@ -1,14 +1,13 @@
 # video-streaming-app
 after cloning it.
 
-**to run:**
-1. make a 'files' folder in this directory root. (backend will make it auto but for safetly.)
-2. docker-compose up -d
-3. cd rabbitt -> npm run build -> npm run start
-4. cd web -> npm run build
-5. cd backend -> npm run build -> npm run start
+**to run first time:**
+1. bash build.sh
 
-check on localhost:4000
+**to run / rebuild**
+2. bash rebuild.sh
+
+check on {hostname}:4000
 
 **required:**
 1. docker
