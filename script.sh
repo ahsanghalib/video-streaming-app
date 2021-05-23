@@ -1,10 +1,10 @@
 #! /usr/bin/bash
 
-cd web && npm run build
+cd web && npm install && npm run build
 cd ..
-cd backend && npm run build
+cd backend && npm install && npm run build
 cd ..
-cd rabbitt && npm run build
+cd rabbitt && npm install && npm run build
 pm2 kill
 pm2 start npm --name rabbitt -- start
 cd .. && cd backend
